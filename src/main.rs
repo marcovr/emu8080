@@ -55,6 +55,14 @@ fn main() {
 		if let Some(_) = e.update_args() {
 			m.run();
 		}
+
+		if let Some(Button::Keyboard(key)) = e.press_args() {
+			m.key_pressed(key);
+		}
+
+		if let Some(Button::Keyboard(key)) = e.release_args() {
+			m.key_released(key);
+		}
 	}
 }
 

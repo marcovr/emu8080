@@ -1,3 +1,5 @@
+use piston_window::Key;
+
 #[derive(Debug)]
 pub struct IOController {
 	input: u8,
@@ -13,7 +15,7 @@ pub struct IOController {
 impl IOController {
 	pub fn new() -> IOController {
 		IOController {
-			input: 0, out3: 0, out5: 0, shift0: 0, shift1: 0, shift_offset: 0
+			input: 4, out3: 0, out5: 0, shift0: 0, shift1: 0, shift_offset: 0
 		}
 	}
 
@@ -46,6 +48,27 @@ impl IOController {
 				(v >> (8 - self.shift_offset)) as u8
 			},
 			_ => 0
+		}
+	}
+
+	pub fn set_key(&mut self, key: Key, val: u8) {
+		let shift = match key {
+			Key::C => 0,
+			Key::Return => 2,
+			Key::D1 => 2,
+			Key::Space => 4,
+			Key::Period => 4,
+			Key::Left => 5,
+			Key::Z => 5,
+			Key::Right => 6,
+			Key::X => 6,
+			_ => 7
+		};
+		if val == 1 {
+			self.input ^= 1 << shift;
+		}
+		else {
+			self.input &= !(1 << shift);
 		}
 	}
 }

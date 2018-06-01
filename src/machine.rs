@@ -8,6 +8,7 @@ use std::io::*;
 use std::vec::Vec;
 use std::fs::File;
 use std::time::SystemTime;
+use piston_window::Key;
 
 use DFIX;
 
@@ -146,5 +147,13 @@ impl Machine {
 			}
 		}
 		self.time = SystemTime::now();
+	}
+
+	pub fn key_pressed(&mut self, key: Key) {
+		self.io.set_key(key, 1);
+	}
+
+	pub fn key_released(&mut self, key: Key) {
+		self.io.set_key(key, 0);
 	}
 }
