@@ -526,7 +526,7 @@ pub fn execute(cpu: &mut CPU, alu: &mut ALU, mut mem: &mut Vec<u8>, opcode: u8, 
 					if DFIX {
 						addr += 1;
 					}
-					while true {
+					loop {
 						let d = mem[addr] as u32;
 						let c = std::char::from_u32(d).expect("invalid char");
 						if c == '$' {
@@ -740,6 +740,7 @@ pub fn execute(cpu: &mut CPU, alu: &mut ALU, mut mem: &mut Vec<u8>, opcode: u8, 
 pub fn generate_interrupt(cpu: &mut CPU, mem: &mut Vec<u8>, interrupt_num: u8) {
 	//This is identical to an "RST interrupt_num" instruction.    
 	call!(cpu, mem, 8 * interrupt_num as u16);
+	cpu.int_enable = 0;
 }
 
 static CYCLES8080: [u8; 0x100] = [

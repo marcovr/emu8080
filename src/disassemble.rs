@@ -1,5 +1,6 @@
 pub fn print_instr(opcode: u8, arg1: u8, arg2: u8, pc: u16) -> u8 {
 	print!("{:04X} ", pc);
+	//print!("{:04X}: {:02X}\t", pc, opcode);
 	let opbytes = match	opcode {
 		0x00 => {print!("NOP"); 1},
 		0x01 => {print!("LXI    B,#${:02X}{:02X}", arg2, arg1); 3},
@@ -272,7 +273,7 @@ pub fn print_instr(opcode: u8, arg1: u8, arg2: u8, pc: u16) -> u8 {
 		0xfd => {print!("CALL   ${:02X}{:02X}", arg2, arg1); 3},
 		0xfe => {print!("CPI    #${:02X}", arg1); 2},
 		0xff => {print!("RST    7"); 1},
-		_ => {print!("Not gonna happen!"); 0},
+		_ => unreachable!(),
 	};
 	opbytes
 }
