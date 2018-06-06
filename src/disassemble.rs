@@ -273,7 +273,7 @@ pub fn print_instr(opcode: u8, arg1: u8, arg2: u8, pc: u16) -> u8 {
 		0xfd => {print!("CALL   ${:02X}{:02X}", arg2, arg1); 3},
 		0xfe => {print!("CPI    #${:02X}", arg1); 2},
 		0xff => {print!("RST    7"); 1},
-		_ => unreachable!(),
+		_ => unreachable!()
 	};
 	opbytes
 }
