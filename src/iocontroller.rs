@@ -1,11 +1,15 @@
+extern crate ears;
+
+use std::fmt;
+use std::vec::Vec;
 use piston_window::Key;
+use self::ears::{AudioController, Sound};
 
 #[derive(Debug)]
 pub struct IOController {
 	input: u8,
 
-	out3: u8,
-	out5: u8,
+	audio: Audio,
 
 	shift0: u8,
 	shift1: u8,
@@ -15,7 +19,7 @@ pub struct IOController {
 impl IOController {
 	pub fn new() -> IOController {
 		IOController {
-			input: 4, out3: 0, out5: 0, shift0: 0, shift1: 0, shift_offset: 0
+			input: 4, audio: Audio::new(), shift0: 0, shift1: 0, shift_offset: 0
 		}
 	}
 
@@ -25,14 +29,14 @@ impl IOController {
 				self.shift_offset = value & 0x7;
 			},
 			3 => {
-				self.out3 = value;
+				self.audio.play(3, value);
 			},
 			4 => {
 				self.shift0 = self.shift1;
 				self.shift1 = value;
 			},
 			5 => {
-				self.out5 = value;
+				self.audio.play(5, value);
 			},
 			_ => ()
 		};
@@ -51,7 +55,7 @@ impl IOController {
 		}
 	}
 
-	pub fn set_key(&mut self, key: Key, val: u8) {
+	pub fn set_key(&mut self, key: Key, value: u8) {
 		let shift = match key {
 			Key::C => 0,
 			Key::Return => 2,
@@ -64,11 +68,64 @@ impl IOController {
 			Key::X => 6,
 			_ => 7
 		};
-		if val == 1 {
-			self.input ^= 1 << shift;
+		if value == 1 {
+			//self.input ^= 1 << shift;
+			self.input |= 1 << shift;
 		}
 		else {
 			self.input &= !(1 << shift);
 		}
+	}
+}
+
+struct Audio {
+	sounds: Vec<Sound>
+}
+
+impl Audio {
+	fn new() -> Self {
+		let mut sounds: Vec<Sound> = Vec::new();
+		for i in 0..9 {
+			let file = &format!("../sound/{}.wav", i);
+			let error = &format!("{}.wav sound not found", i);
+			sounds.push(Sound::new(file).expect(error));
+		}
+		sounds[0].set_looping(true); // loop UFO sound
+
+		Audio {
+			sounds
+		}
+	}
+
+	fn play(&mut self, port: u8, value: u8) {
+		if port == 3 {
+			for i in 0..4 {
+				if (value >> i) & 1 == 1 {
+					if !self.sounds[i].is_playing() {
+						self.sounds[i].play();
+					}
+				}
+			}
+			if value & 1 == 0 {
+				if self.sounds[0].is_playing() {
+					self.sounds[0].stop(); // stop UFO sound if needed
+				}
+			}
+		}
+		else {
+			for i in 4..9 {
+				if (value >> (i - 4)) & 1 == 1 {
+					if !self.sounds[i].is_playing() {
+						self.sounds[i].play();
+					}
+				}
+			}
+		}
+	}
+}
+
+impl fmt::Debug for Audio {
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+		write!(f, "Audio")
 	}
 }
