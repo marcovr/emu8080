@@ -23,6 +23,13 @@ const HEIGHT: u32 = 256;
 const SCALE: u32 = 2;
 
 fn main() {
+	if cfg!(feature = "audio") {
+		println!("=> Audio enabled!");
+	}
+	else {
+		println!("=> Audio disabled!");
+	}
+
 	let mut img_buffer = RgbaImage::new(WIDTH, HEIGHT);
 	
 	let mut window: PistonWindow = WindowSettings::new("SpaceInvaders", [SCALE * WIDTH, SCALE * HEIGHT])

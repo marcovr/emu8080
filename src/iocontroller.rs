@@ -1,9 +1,13 @@
+#[cfg(feature = "audio")]
 extern crate ears;
+#[cfg(feature = "audio")]
+use std::vec::Vec;
+#[cfg(feature = "audio")]
+use self::ears::{AudioController, Sound};
 
 use std::fmt;
-use std::vec::Vec;
 use piston_window::Key;
-use self::ears::{AudioController, Sound};
+
 
 #[derive(Debug)]
 pub struct IOController {
@@ -78,10 +82,12 @@ impl IOController {
 	}
 }
 
+#[cfg(feature = "audio")]
 struct Audio {
 	sounds: Vec<Sound>
 }
 
+#[cfg(feature = "audio")]
 impl Audio {
 	fn new() -> Self {
 		let mut sounds: Vec<Sound> = Vec::new();
@@ -122,6 +128,21 @@ impl Audio {
 			}
 		}
 	}
+}
+
+
+// Dummy Version if audio not enabled
+
+#[cfg(not(feature = "audio"))]
+struct Audio {}
+
+#[cfg(not(feature = "audio"))]
+impl Audio {
+	fn new() -> Self {
+		Audio {}
+	}
+
+	fn play(&mut self, _port: u8, _value: u8) {}
 }
 
 impl fmt::Debug for Audio {

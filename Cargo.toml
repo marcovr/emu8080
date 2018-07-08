@@ -6,7 +6,11 @@ authors = ["Marco vR <marcovr@live.de>"]
 [[bin]]
 name = "emu8080"
 
+[features]
+default = []
+audio = ["ears"]
+
 [dependencies]
 piston_window = "0.80.0"
 image = "0.19.0"
-ears = "0.5.1"
+ears = { version = "0.5.1", optional = true }
