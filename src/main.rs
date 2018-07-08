@@ -45,9 +45,9 @@ fn main() {
 
 	let mut m = Machine::new();
 
-	//m.load_rom("../rom/cpudiag.bin", 0x100);
-	//m.load_rom("../rom/test.bin", 0x100);
-	m.load_rom("../rom/invaders.bin", 0);
+	//m.load_rom("rom/cpudiag.bin", 0x100);
+	//m.load_rom("rom/test.bin", 0x100);
+	m.load_rom("rom/invaders.bin", 0);
 
 	while let Some(e) = window.next() {
 		if let Some(_) = e.render_args() {

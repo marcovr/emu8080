@@ -2,10 +2,11 @@
 /target
 **/*.rs.bk
 
-/sound
 /lib
 /bak
 *.exe
 *.pdb
+*.wav
+*.bat
 
 *.sublime*

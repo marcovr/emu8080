@@ -92,8 +92,8 @@ impl Audio {
 	fn new() -> Self {
 		let mut sounds: Vec<Sound> = Vec::new();
 		for i in 0..9 {
-			let file = &format!("../sound/{}.wav", i);
-			let error = &format!("{}.wav sound not found", i);
+			let file = &format!("sound/{}.wav", i);
+			let error = &format!("sound file not found: {}", file);
 			sounds.push(Sound::new(file).expect(error));
 		}
 		sounds[0].set_looping(true); // loop UFO sound

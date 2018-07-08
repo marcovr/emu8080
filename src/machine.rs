@@ -111,7 +111,7 @@ impl Machine {
 	}
 
 	pub fn load_rom(&mut self, filename: &str, offset: usize) {
-		let buffer = read_file(&filename).expect("Can't read file");
+		let buffer = read_file(&filename).expect(&format!("Can't read ROM file: {}", filename));
 
 		let l = buffer.len() + offset;
 		self.mem[offset..l].copy_from_slice(&buffer);

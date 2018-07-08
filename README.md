@@ -18,22 +18,26 @@ the original [Space Invaders](https://en.wikipedia.org/wiki/Space_Invaders) game
 
 ```cargo build```
 
+To directly run the program, substitute `build` with `run`.
+
 <br>
 
 ## With audio support
 **Requirements:**
 - [Rust & cargo](https://rustup.rs/)
 - [OpenAL and libsndfile](https://crates.io/crates/ears#before-you-start) for the ears package to work.
-- Space Invaders audio files `0.wav, ... , 8.wav`
+- Space Invaders audio files
   1. Download the files (They can be easily found online)
-  2. Create directory `sound`
-  3. Move the files into the directory
+  2. Move the files into the `sound` directory
+  3. Make sure they are named correctly: `0.wav, ... , 8.wav`
 
 <br>
 
 **Build:**
 
 ```cargo build --features audio```
+
+To directly run the program, substitute `build` with `run`.
 
 <br>
 
